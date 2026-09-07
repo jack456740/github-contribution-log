@@ -18,19 +18,19 @@ OWASP WSTG Issue #1447 proposes adding a new chapter for testing LLM application
 
 ### Problem Description
 
-[In your own words, what's broken or missing?]
+WASP WSTG Issue #1447 proposes adding a new chapter dedicated to testing LLM applications. The issue identifies a need for practical security testing guidance for LLM-powered applications, including areas such as prompt injection, sensitive information disclosure, insecure output handling, and excessive agency or tool abuse.
 
 ### Expected Behavior
 
-[What should happen?]
+The OWASP Web Security Testing Guide should provide security testers with guidance for testing LLM applications and identifying security risks specific to the use of large language models.
 
 ### Current Behavior
 
-[What actually happens?]
+The WSTG does not currently have the proposed dedicated chapter for testing LLM applications. Issue #1447 was created to address this gap by adding new testing guidance to the guide.
 
 ### Affected Components
 
-[Which parts of the codebase are involved?]
+The affected component is the OWASP Web Security Testing Guide documentation, specifically the proposed chapter for testing LLM applications and the related security testing guidance.
 
 ---
 
