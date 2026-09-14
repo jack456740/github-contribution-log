@@ -1,8 +1,8 @@
-# Contribution 1:Testing LLM Apllication
+# Contribution 1: LibrePhotos Frontend Contribution
 
-**Contribution Number:** 1  
-**Student:** Alvin Ray Rogers Jr 
-**Issue:** [https://github.com/OWASP/wstg/issues/1447)](https://github.com/OWASP/wstg/issues/1447)
+**Contribution Number:** 1
+**Student:** Alvin Ray Rogers Jr.
+**Issue:** [LibrePhotos Issue #545 — Add option to only hide image from general photo stream](https://github.com/LibrePhotos/librephotos/issues/545)
 **Status:** Phase I Complete
 
 ---
@@ -11,26 +11,30 @@
 
 [1-2 paragraphs explaining why this issue interests you, how it matches your skills/learning goals, what you hope to learn]
 
-OWASP WSTG Issue #1447 proposes adding a new chapter for testing LLM applications, including security testing for risks such as prompt injection, sensitive information disclosure, insecure output handling, and excessive agency or tool abuse. This issue matters because LLMs are increasingly being used in web applications, creating security risks that may require testing approaches beyond traditional web application security testing. I chose this issue because it combines artificial intelligence, cybersecurity, and software engineering, which aligns well with my computer science background and the goals of this AI301 project. I am also interested in using Claude as an AI-assisted research and engineering tool while making sure that my final work is independently reviewed and verified.
+LibrePhotos Issue #545 proposes adding an option to hide an image from the general photo stream while keeping the image accessible in other areas, such as albums. This issue interests me because it involves both frontend behavior and the way the frontend interacts with the LibrePhotos backend to determine which images are displayed. I chose this issue because it combines software engineering, frontend development, and understanding API behavior, which aligns with my computer science background and the goals of this AI301 project.
 
+I am also interested in learning more about how an open-source application organizes and filters user data across different views. By working on this issue, I hope to better understand the existing LibrePhotos frontend, its backend endpoints, and its E2E testing structure while making sure that my work is independently reviewed and verified.
+
+---
 
 ## Understanding the Issue
 
 ### Problem Description
 
-WASP WSTG Issue #1447 proposes adding a new chapter dedicated to testing LLM applications. The issue identifies a need for practical security testing guidance for LLM-powered applications, including areas such as prompt injection, sensitive information disclosure, insecure output handling, and excessive agency or tool abuse.
+LibrePhotos Issue #545 proposes adding an option to only hide an image from the general photo stream. The issue describes a situation where hiding an image that has been added to an album can cause the album to no longer appear by default. The requested behavior is similar to an archive feature, where an image can be removed from the general photo stream while remaining available in an album.
 
 ### Expected Behavior
 
-The OWASP Web Security Testing Guide should provide security testers with guidance for testing LLM applications and identifying security risks specific to the use of large language models.
+LibrePhotos should provide a way for users to hide an image from the general photo stream without removing the image from albums where it has been organized. The image should remain accessible through the appropriate album while no longer appearing in the normal photo stream.
 
 ### Current Behavior
 
-The WSTG does not currently have the proposed dedicated chapter for testing LLM applications. Issue #1447 was created to address this gap by adding new testing guidance to the guide.
+When an image is hidden, the current behavior can cause an album containing that image to disappear by default. This means that the current hide functionality can affect the visibility of the image beyond the general photo stream.
 
 ### Affected Components
 
-The affected component is the OWASP Web Security Testing Guide documentation, specifically the proposed chapter for testing LLM applications and the related security testing guidance.
+The affected components include the LibrePhotos frontend and the backend functionality responsible for filtering and returning images. The frontend uses the `/api/albums/date/list/` and `/api/albums/date/<id>` endpoints to load images for the general photo stream, while the backend provides filtering for hidden images. The relevant frontend components, backend API logic, and existing E2E tests will need to be examined to determine where the current behavior originates.
+
 
 ---
 
