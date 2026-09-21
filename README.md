@@ -3,7 +3,7 @@
 **Contribution Number:** 1  
 **Student:** Alvin Ray Rogers Jr.  
 **Issue:** [LibrePhotos Issue #545 — Add option to only hide image from general photo stream](https://github.com/LibrePhotos/librephotos/issues/545)  
-**Status:** Phase II Complete
+**Status:** Phase III Complete
 
 ---
 
@@ -212,56 +212,88 @@ The fix will be verified by reproducing the original scenario:
 7. Open the album and confirm the photo remains accessible.
 8. Unhide the photo and confirm it returns to the general Photos stream.
 
----
-
 ## Testing Strategy
 
-### Unit Tests
+### Regression Test
 
-- [ ] Test case 1: [Description]
-- [ ] Test case 2: [Description]
-- [ ] Test case 3: [Description]
+Added a regression test:
 
-### Integration Tests
+`test_hiding_only_photo_does_not_hide_user_album`
 
-- [ ] Integration scenario 1
-- [ ] Integration scenario 2
+The test verifies that:
 
+1. A user-created album is created.
+2. A photo is added to the album.
+3. The photo is hidden using the existing Hide endpoint.
+4. The user's album list is requested.
+5. The album remains visible.
+6. The hidden photo remains associated with the album.
+
+### Test Results
+
+The existing album media type test file was run after the implementation:
+
+```text
+Ran 11 tests
+OK
+```
 ### Manual Testing
 
-[What you tested manually and results]
+I reproduced the original issue in the local LibrePhotos development
+environment before implementing the fix.
+
+The original behavior was:
+
+1. A photo was added to a user-created album.
+2. The photo was visible in the album.
+3. The photo was hidden using the Hide action.
+4. The album containing the hidden photo was no longer visible.
+
+After the implementation, the regression test confirmed that the album
+remains visible when its only photo is hidden.
 
 ---
 
 ## Implementation Notes
 
-### Week [X] Progress
+### Phase III Progress
 
-[What you built this week, challenges faced, decisions made]
+The root cause was identified in the user album listing logic in
+`apps/backend/api/views/albums.py`.
 
-### Week [Y] Progress
+The album list calculated its photo count using only photos where
+`hidden=False`. When the only photo in an album was hidden, the photo count
+became zero and the album was excluded from the user's album list.
 
-[Continue documenting as you work]
+The implementation changes the album photo count to include all photos
+associated with the user-created album, regardless of whether a photo is
+hidden.
 
 ### Code Changes
 
-- **Files modified:** [List]
-- **Key commits:** [Links to important commits]
-- **Approach decisions:** [Why you chose certain approaches]
+- **`apps/backend/api/views/albums.py`**
+  - Updated the user album photo count to include hidden photos.
+
+- **`apps/backend/api/tests/albums/test_album_media_type_filter.py`**
+  - Added a regression test for Issue #545.
+
+### Key Commit
+
+**Commit message:** `Fix hidden photos in user album list`
+
+The implementation was committed and pushed to the `dev` branch of my fork.
+
+### Branch Link
+
+[LibrePhotos dev branch](https://github.com/jack456740/librephotos/tree/dev)
 
 ---
 
 ## Pull Request
 
-**PR Link:** [GitHub PR URL when submitted]
+**PR Link:** Not submitted yet.
 
-**PR Description:** [Draft or final PR description - much of the content above can be adapted]
-
-**Maintainer Feedback:**
-- [Date]: [Summary of feedback received]
-- [Date]: [How you addressed it]
-
-**Status:** [Awaiting review / Iterating / Approved / Merged]
+**Status:** Phase III implementation complete; ready for Phase IV review and polish.
 
 ---
 
@@ -269,20 +301,31 @@ The fix will be verified by reproducing the original scenario:
 
 ### Technical Skills Gained
 
-[What you learned technically]
+I learned how LibrePhotos uses Django querysets and annotations to determine
+which user-created albums appear in the album list. I also gained experience
+tracing behavior across the photo model, photo hiding endpoint, album model,
+and album listing view.
 
 ### Challenges Overcome
 
-[What was hard and how you solved it]
+The main challenge was determining why hiding a photo caused its album to
+disappear even though the photo-to-album relationship was not removed.
+
+Inspecting the album listing query showed that the photo count explicitly
+excluded hidden photos. This explained why an album containing only hidden
+photos was filtered from the album list.
 
 ### What I'd Do Differently Next Time
 
-[Reflection on your process]
+I would inspect the relevant queryset and existing tests earlier in the
+process. This would make it easier to identify the root cause and create the
+regression test before making implementation changes.
 
 ---
 
 ## Resources Used
 
-- [Link to helpful documentation]
-- [Tutorial or Stack Overflow post that helped]
-- [GitHub issues or discussions that helped]
+- [LibrePhotos Issue #545](https://github.com/LibrePhotos/librephotos/issues/545)
+- [LibrePhotos Repository](https://github.com/LibrePhotos/librephotos)
+- LibrePhotos contribution guidelines
+- LibrePhotos existing album and photo test suites
